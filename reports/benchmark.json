@@ -1,0 +1,123 @@
+{
+  "models": [
+    {
+      "label": "Original",
+      "node_count": 51,
+      "path": "artifacts/model.onnx",
+      "selected_op_counts": {
+        "Cast": 0,
+        "Constant": 7,
+        "Dropout": 0,
+        "Identity": 1,
+        "Reshape": 0,
+        "Transpose": 3
+      },
+      "size_bytes": 6888
+    },
+    {
+      "label": "Custom",
+      "node_count": 48,
+      "path": "artifacts/model.opt.onnx",
+      "selected_op_counts": {
+        "Cast": 0,
+        "Constant": 7,
+        "Dropout": 0,
+        "Identity": 0,
+        "Reshape": 0,
+        "Transpose": 1
+      },
+      "size_bytes": 6585
+    },
+    {
+      "label": "ORT",
+      "node_count": 31,
+      "path": "artifacts/model.opt.ort.onnx",
+      "selected_op_counts": {
+        "Cast": 0,
+        "Constant": 0,
+        "Dropout": 0,
+        "Identity": 0,
+        "Reshape": 12,
+        "Transpose": 1
+      },
+      "size_bytes": 8092
+    }
+  ],
+  "providers": {
+    "CPUExecutionProvider": {
+      "models": {
+        "Custom": {
+          "effective_provider": true,
+          "latency_ms": {
+            "max": 0.01799999881768599,
+            "min": 0.014582998119294643,
+            "p50": 0.01518700082669966,
+            "runs": 20.0,
+            "session_providers": [
+              "CPUExecutionProvider"
+            ]
+          },
+          "output_parity_vs_first_model": {
+            "atol": 1e-05,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "parity": true,
+            "rtol": 0.0001
+          },
+          "speedup_vs_first_model": 1.0233422787634945
+        },
+        "ORT": {
+          "effective_provider": true,
+          "latency_ms": {
+            "max": 0.018665996321942657,
+            "min": 0.01454199809813872,
+            "p50": 0.015249999705702066,
+            "runs": 20.0,
+            "session_providers": [
+              "CPUExecutionProvider"
+            ]
+          },
+          "output_parity_vs_first_model": {
+            "atol": 1e-05,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "parity": true,
+            "rtol": 0.0001
+          },
+          "speedup_vs_first_model": 1.019114775967297
+        },
+        "Original": {
+          "effective_provider": true,
+          "latency_ms": {
+            "max": 0.02008400042541325,
+            "min": 0.014666999049950391,
+            "p50": 0.015541500033577904,
+            "runs": 20.0,
+            "session_providers": [
+              "CPUExecutionProvider"
+            ]
+          },
+          "output_parity_vs_first_model": {
+            "atol": 1e-05,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "parity": true,
+            "rtol": 0.0001
+          },
+          "speedup_vs_first_model": 1.0
+        }
+      },
+      "requested_provider": "CPUExecutionProvider"
+    }
+  },
+  "runtime": {
+    "available_providers": [
+      "CoreMLExecutionProvider",
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "platform": "macOS-26.2-arm64-arm-64bit",
+    "python": "3.12.6"
+  },
+  "sample_input_path": "artifacts/model.inputs.npz"
+}

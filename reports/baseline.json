@@ -4,8 +4,8 @@
   "longest_shape_only_chain": {
     "length": 2,
     "nodes": [
-      "cancel_transpose_1",
-      "cancel_transpose_2"
+      "layer0_cancel_transpose_1",
+      "layer0_cancel_transpose_2"
     ],
     "ops": [
       "Transpose",
@@ -36,7 +36,7 @@
         "matmul_count": 8,
         "report_only": true,
         "softmax_nodes": [
-          "attention_softmax"
+          "layer0_attention_softmax"
         ]
       }
     ],
@@ -44,59 +44,59 @@
     "gelu_like": [
       {
         "kind": "ErfGeluLike",
-        "node": "gelu_erf"
+        "node": "layer0_gelu_erf"
       }
     ],
     "layer_norm_like": [
       {
         "kind": "LayerNormLike",
-        "start": "ln1_mean"
+        "start": "layer0_ln1_mean"
       },
       {
         "kind": "LayerNormLike",
-        "start": "ln2_mean"
+        "start": "layer0_ln2_mean"
       }
     ],
     "matmul_add": [
       {
-        "add": "q_add",
-        "matmul": "q_matmul"
+        "add": "layer0_q_add",
+        "matmul": "layer0_q_matmul"
       },
       {
-        "add": "k_add",
-        "matmul": "k_matmul"
+        "add": "layer0_k_add",
+        "matmul": "layer0_k_matmul"
       },
       {
-        "add": "v_add",
-        "matmul": "v_matmul"
+        "add": "layer0_v_add",
+        "matmul": "layer0_v_matmul"
       },
       {
-        "add": "attn_out_add",
-        "matmul": "attn_out_matmul"
+        "add": "layer0_attn_out_add",
+        "matmul": "layer0_attn_out_matmul"
       },
       {
-        "add": "ff1_add",
-        "matmul": "ff1_matmul"
+        "add": "layer0_ff1_add",
+        "matmul": "layer0_ff1_matmul"
       },
       {
-        "add": "ff2_add",
-        "matmul": "ff2_matmul"
+        "add": "layer0_ff2_add",
+        "matmul": "layer0_ff2_matmul"
       }
     ],
     "matmul_add_gelu_like": [
       {
-        "activation": "gelu_erf",
-        "add": "ff1_add",
+        "activation": "layer0_gelu_erf",
+        "add": "layer0_ff1_add",
         "kind": "Erf",
-        "matmul": "ff1_matmul",
+        "matmul": "layer0_ff1_matmul",
         "report_only": true
       }
     ],
     "transpose_reshape_chains": [
       {
         "nodes": [
-          "cancel_transpose_1",
-          "cancel_transpose_2"
+          "layer0_cancel_transpose_1",
+          "layer0_cancel_transpose_2"
         ],
         "ops": [
           "Transpose",
@@ -123,7 +123,7 @@
       ]
     },
     "outputs": {
-      "ln2": [
+      "layer0_ln2": [
         1,
         4,
         8

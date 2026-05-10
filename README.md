@@ -27,11 +27,13 @@ flowchart LR
     A["Export tiny transformer-like ONNX"] --> B["Analyze graph"]
     B --> C["ONNX Runtime offline optimization"]
     C --> D["Conservative custom rewrites"]
-    D --> E["ONNX checker + ORT CPU parity"]
+    D --> E["ONNX checker + ORT parity"]
+    E --> H["Provider benchmark"]
     D --> F["Optional ONNX-MLIR lowering"]
     B --> G["Markdown report"]
     C --> G
     E --> G
+    H --> G
     F --> G
 ```
 
@@ -46,6 +48,7 @@ python -m tcw export --model distilbert-base-uncased --out artifacts/model.onnx
 python -m tcw analyze artifacts/model.onnx --out reports/baseline.json
 python -m tcw optimize artifacts/model.onnx --out artifacts/model.opt.onnx --report reports/opt.json --sample-inputs artifacts/model.inputs.npz
 python -m tcw validate artifacts/model.onnx artifacts/model.opt.onnx --out reports/validate.json --sample-inputs artifacts/model.inputs.npz
+python -m tcw benchmark artifacts/model.onnx artifacts/model.opt.onnx artifacts/model.opt.ort.onnx --labels Original Custom ORT --sample-inputs artifacts/model.inputs.npz --providers CPUExecutionProvider --out reports/benchmark.json
 python -m tcw lower artifacts/model.opt.onnx --emit-dir artifacts/mlir
 cp artifacts/mlir/lowering.json reports/lowering.json
 python -m tcw report --reports reports --out reports/index.md
@@ -63,6 +66,25 @@ CPU. The graph uses standard ONNX operators and includes attention-like,
 MatMul/Add, GELU-like, LayerNorm-like, Identity, and canceling Transpose
 patterns for analysis and rewrite experiments.
 
+For provider benchmarking, export a larger deterministic graph:
+
+```bash
+python -m tcw export --preset benchmark --out artifacts/benchmark.onnx
+python -m tcw optimize artifacts/benchmark.onnx --out artifacts/benchmark.opt.onnx --report reports/benchmark.opt.json --sample-inputs artifacts/benchmark.inputs.npz
+python -m tcw benchmark artifacts/benchmark.onnx artifacts/benchmark.opt.onnx artifacts/benchmark.opt.ort.onnx \
+  --labels Original Custom ORT \
+  --sample-inputs artifacts/benchmark.inputs.npz \
+  --providers CPUExecutionProvider \
+  --out reports/benchmark.json \
+  --warmup 10 \
+  --runs 50
+```
+
+On a machine with a working `onnxruntime-gpu` install, add
+`CUDAExecutionProvider` to `--providers`. The benchmark JSON records available
+providers and the effective session providers for each latency row, so fallback
+to CPU is visible.
+
 ## Example Report
 
 ```markdown
@@ -73,11 +95,12 @@ patterns for analysis and rewrite experiments.
 | Custom optimized | X | X | X | X | X ms | Y |
 ```
 
-Latency is ONNX Runtime CPU latency only. The project does not claim GPU,
-CUDA, TensorRT, or real deployment speedups.
+The default report is CPU-first. GPU rows are only meaningful when the JSON
+shows `CUDAExecutionProvider` as an effective session provider.
 
 The report also emits SVG visualizations under `reports/assets/`, including the
-compiler workflow, node-count changes, custom pass effects, and ORT op deltas.
+compiler workflow, node-count changes, custom pass effects, ORT op deltas, and
+provider latency bars when benchmark data exists.
 
 ## Supported Rewrites
 
@@ -139,6 +162,11 @@ If the requested provider is unavailable, the tool falls back to
 `CPUExecutionProvider` and records the available providers in the JSON report.
 The report also records the effective session providers used for latency
 measurement.
+
+Use `tcw benchmark` rather than the tiny validation command for speedup claims.
+The default tiny graph is intentionally dominated by launch overhead; the
+`benchmark` preset increases sequence length, hidden size, feed-forward width,
+and layer count to expose provider behavior without leaving standard ONNX ops.
 
 ## Potential Upstream PRs
 

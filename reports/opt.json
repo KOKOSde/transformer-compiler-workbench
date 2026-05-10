@@ -7,7 +7,7 @@
       "longest_shape_only_chain": {
         "length": 1,
         "nodes": [
-          "k_transpose"
+          "layer0_k_transpose"
         ],
         "ops": [
           "Transpose"
@@ -36,7 +36,7 @@
             "matmul_count": 8,
             "report_only": true,
             "softmax_nodes": [
-              "attention_softmax"
+              "layer0_attention_softmax"
             ]
           }
         ],
@@ -44,51 +44,51 @@
         "gelu_like": [
           {
             "kind": "ErfGeluLike",
-            "node": "gelu_erf"
+            "node": "layer0_gelu_erf"
           }
         ],
         "layer_norm_like": [
           {
             "kind": "LayerNormLike",
-            "start": "ln1_mean"
+            "start": "layer0_ln1_mean"
           },
           {
             "kind": "LayerNormLike",
-            "start": "ln2_mean"
+            "start": "layer0_ln2_mean"
           }
         ],
         "matmul_add": [
           {
-            "add": "q_add",
-            "matmul": "q_matmul"
+            "add": "layer0_q_add",
+            "matmul": "layer0_q_matmul"
           },
           {
-            "add": "k_add",
-            "matmul": "k_matmul"
+            "add": "layer0_k_add",
+            "matmul": "layer0_k_matmul"
           },
           {
-            "add": "v_add",
-            "matmul": "v_matmul"
+            "add": "layer0_v_add",
+            "matmul": "layer0_v_matmul"
           },
           {
-            "add": "attn_out_add",
-            "matmul": "attn_out_matmul"
+            "add": "layer0_attn_out_add",
+            "matmul": "layer0_attn_out_matmul"
           },
           {
-            "add": "ff1_add",
-            "matmul": "ff1_matmul"
+            "add": "layer0_ff1_add",
+            "matmul": "layer0_ff1_matmul"
           },
           {
-            "add": "ff2_add",
-            "matmul": "ff2_matmul"
+            "add": "layer0_ff2_add",
+            "matmul": "layer0_ff2_matmul"
           }
         ],
         "matmul_add_gelu_like": [
           {
-            "activation": "gelu_erf",
-            "add": "ff1_add",
+            "activation": "layer0_gelu_erf",
+            "add": "layer0_ff1_add",
             "kind": "Erf",
-            "matmul": "ff1_matmul",
+            "matmul": "layer0_ff1_matmul",
             "report_only": true
           }
         ],
@@ -111,7 +111,7 @@
           ]
         },
         "outputs": {
-          "ln2": [
+          "layer0_ln2": [
             1,
             4,
             8
@@ -131,8 +131,8 @@
       "longest_shape_only_chain": {
         "length": 2,
         "nodes": [
-          "cancel_transpose_1",
-          "cancel_transpose_2"
+          "layer0_cancel_transpose_1",
+          "layer0_cancel_transpose_2"
         ],
         "ops": [
           "Transpose",
@@ -163,7 +163,7 @@
             "matmul_count": 8,
             "report_only": true,
             "softmax_nodes": [
-              "attention_softmax"
+              "layer0_attention_softmax"
             ]
           }
         ],
@@ -171,59 +171,59 @@
         "gelu_like": [
           {
             "kind": "ErfGeluLike",
-            "node": "gelu_erf"
+            "node": "layer0_gelu_erf"
           }
         ],
         "layer_norm_like": [
           {
             "kind": "LayerNormLike",
-            "start": "ln1_mean"
+            "start": "layer0_ln1_mean"
           },
           {
             "kind": "LayerNormLike",
-            "start": "ln2_mean"
+            "start": "layer0_ln2_mean"
           }
         ],
         "matmul_add": [
           {
-            "add": "q_add",
-            "matmul": "q_matmul"
+            "add": "layer0_q_add",
+            "matmul": "layer0_q_matmul"
           },
           {
-            "add": "k_add",
-            "matmul": "k_matmul"
+            "add": "layer0_k_add",
+            "matmul": "layer0_k_matmul"
           },
           {
-            "add": "v_add",
-            "matmul": "v_matmul"
+            "add": "layer0_v_add",
+            "matmul": "layer0_v_matmul"
           },
           {
-            "add": "attn_out_add",
-            "matmul": "attn_out_matmul"
+            "add": "layer0_attn_out_add",
+            "matmul": "layer0_attn_out_matmul"
           },
           {
-            "add": "ff1_add",
-            "matmul": "ff1_matmul"
+            "add": "layer0_ff1_add",
+            "matmul": "layer0_ff1_matmul"
           },
           {
-            "add": "ff2_add",
-            "matmul": "ff2_matmul"
+            "add": "layer0_ff2_add",
+            "matmul": "layer0_ff2_matmul"
           }
         ],
         "matmul_add_gelu_like": [
           {
-            "activation": "gelu_erf",
-            "add": "ff1_add",
+            "activation": "layer0_gelu_erf",
+            "add": "layer0_ff1_add",
             "kind": "Erf",
-            "matmul": "ff1_matmul",
+            "matmul": "layer0_ff1_matmul",
             "report_only": true
           }
         ],
         "transpose_reshape_chains": [
           {
             "nodes": [
-              "cancel_transpose_1",
-              "cancel_transpose_2"
+              "layer0_cancel_transpose_1",
+              "layer0_cancel_transpose_2"
             ],
             "ops": [
               "Transpose",
@@ -250,7 +250,7 @@
           ]
         },
         "outputs": {
-          "ln2": [
+          "layer0_ln2": [
             1,
             4,
             8
@@ -273,7 +273,7 @@
         "length": 2,
         "nodes": [
           "gemm_output_reshape",
-          "k_transpose"
+          "layer0_k_transpose"
         ],
         "ops": [
           "Reshape",
@@ -300,7 +300,7 @@
         "gelu_like": [
           {
             "kind": "ErfGeluLike",
-            "node": "gelu_erf"
+            "node": "layer0_gelu_erf"
           }
         ],
         "layer_norm_like": [],
@@ -310,7 +310,7 @@
           {
             "nodes": [
               "gemm_output_reshape",
-              "k_transpose"
+              "layer0_k_transpose"
             ],
             "ops": [
               "Reshape",
@@ -337,7 +337,7 @@
           ]
         },
         "outputs": {
-          "ln2": [
+          "layer0_ln2": [
             1,
             4,
             8
@@ -439,7 +439,7 @@
       "changed": 1,
       "name": "collapse_transpose_pairs",
       "notes": [
-        "Removed canceling pair cancel_transpose_1 -> cancel_transpose_2."
+        "Removed canceling pair layer0_cancel_transpose_1 -> layer0_cancel_transpose_2."
       ]
     },
     {
@@ -454,18 +454,18 @@
       "candidate": "artifacts/model.opt.onnx",
       "latency_ms": {
         "baseline": {
-          "max": 0.022708998585585505,
-          "min": 0.01683399750618264,
-          "p50": 0.019729504856513813,
+          "max": 0.018916995031759143,
+          "min": 0.01412499841535464,
+          "p50": 0.014854002074571326,
           "runs": 20.0,
           "session_providers": [
             "CPUExecutionProvider"
           ]
         },
         "candidate": {
-          "max": 0.027959002181887627,
-          "min": 0.017958001990336925,
-          "p50": 0.020249499357305467,
+          "max": 0.02108299668179825,
+          "min": 0.014583005395252258,
+          "p50": 0.015645498933736235,
           "runs": 20.0,
           "session_providers": [
             "CPUExecutionProvider"
@@ -496,18 +496,18 @@
       "candidate": "artifacts/model.opt.ort.onnx",
       "latency_ms": {
         "baseline": {
-          "max": 0.02270800177939236,
-          "min": 0.016417005099356174,
-          "p50": 0.01881199932540767,
+          "max": 0.02112500078510493,
+          "min": 0.014458004443440586,
+          "p50": 0.0150835003296379,
           "runs": 20.0,
           "session_providers": [
             "CPUExecutionProvider"
           ]
         },
         "candidate": {
-          "max": 0.021292005840223283,
-          "min": 0.014541001291945577,
-          "p50": 0.01566649734741077,
+          "max": 0.01729200448608026,
+          "min": 0.014290999388322234,
+          "p50": 0.014812500012340024,
           "runs": 20.0,
           "session_providers": [
             "CPUExecutionProvider"

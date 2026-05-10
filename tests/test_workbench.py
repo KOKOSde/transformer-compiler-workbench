@@ -7,6 +7,7 @@ import onnx
 from onnx import TensorProto, helper, numpy_helper
 
 from tcw.analyze import analyze_model, write_analysis
+from tcw.benchmark import benchmark_models
 from tcw.io import read_json
 from tcw.lower import lower_model
 from tcw.optimize import optimize_model
@@ -134,6 +135,29 @@ def test_optimizer_output_passes_checker(tmp_path: Path):
     optimize_model(model_path, out_path, report_path=report_path)
     onnx.checker.check_model(onnx.load(out_path))
     assert read_json(report_path)["validation"]["custom"]["output_parity"]["parity"]
+
+
+def test_benchmark_generates_cpu_report(tmp_path: Path):
+    model_path = _linear_graph(tmp_path / "linear.onnx")
+    sample_path = tmp_path / "inputs.npz"
+    np.savez(sample_path, x=np.array([[1.0, 2.0]], dtype=np.float32))
+    report_path = tmp_path / "benchmark.json"
+
+    report = benchmark_models(
+        [model_path],
+        sample_input_path=sample_path,
+        providers=["CPUExecutionProvider"],
+        labels=["linear"],
+        out=report_path,
+        warmup=0,
+        runs=1,
+    )
+
+    result = report["providers"]["CPUExecutionProvider"]["models"]["linear"]
+    assert report_path.exists()
+    assert result["effective_provider"]
+    assert result["output_parity_vs_first_model"]["parity"]
+    assert result["latency_ms"]["p50"] >= 0
 
 
 def test_validation_detects_numerical_mismatch():

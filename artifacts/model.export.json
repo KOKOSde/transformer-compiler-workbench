@@ -1,7 +1,14 @@
 {
   "exported_model": "tiny-transformer-like",
-  "note": "The MVP uses a deterministic tiny transformer-like ONNX graph so the workbench is reproducible on macOS/CPU without downloads.",
+  "note": "The default export uses a deterministic tiny transformer-like ONNX graph so the workbench is reproducible on macOS/CPU without downloads.",
   "onnx_path": "artifacts/model.onnx",
   "requested_model": "distilbert-base-uncased",
-  "sample_input_path": "artifacts/model.inputs.npz"
+  "sample_input_path": "artifacts/model.inputs.npz",
+  "shape": {
+    "batch": 1,
+    "ffn": 16,
+    "hidden": 8,
+    "layers": 1,
+    "seq": 4
+  }
 }

@@ -16,6 +16,8 @@ COLORS = {
     "grid": "#e5e7eb",
 }
 
+BAR_COLORS = ["#4f46e5", "#0891b2", "#16a34a", "#f59e0b", "#db2777", "#475569"]
+
 
 def _svg(width: int, height: int, body: list[str]) -> str:
     return "\n".join(
@@ -127,6 +129,44 @@ def write_pipeline_diagram(out: Path) -> None:
             )
         x += 170
     write_text(out, _svg(1060, 180, body))
+
+
+def write_benchmark_chart(benchmark: dict[str, Any], out: Path) -> None:
+    rows: list[tuple[str, float, str]] = []
+    labels = [item["label"] for item in benchmark.get("models", [])]
+    for provider, provider_report in benchmark.get("providers", {}).items():
+        models = provider_report.get("models", {})
+        for index, label in enumerate(labels):
+            result = models.get(label, {})
+            latency = result.get("latency_ms", {})
+            p50 = latency.get("p50")
+            if p50 is None:
+                continue
+            active_marker = "" if result.get("effective_provider") else " fallback"
+            rows.append(
+                (
+                    f"{provider.replace('ExecutionProvider', '')}: {label}{active_marker}",
+                    float(p50),
+                    BAR_COLORS[index % len(BAR_COLORS)],
+                )
+            )
+
+    body = [_text(24, 32, "Provider latency benchmark", size=18, weight=700)]
+    if not rows:
+        body.append(_text(24, 70, "No successful latency rows found.", size=14))
+        write_text(out, _svg(720, 120, body))
+        return
+
+    max_value = max(value for _, value, _ in rows)
+    for index, (label, value, color) in enumerate(rows):
+        y = 66 + index * 36
+        width = max(3, int((value / max_value) * 330))
+        body.append(_text(24, y + 16, label, size=12))
+        body.append(
+            f'<rect x="310" y="{y}" width="{width}" height="20" rx="4" fill="{color}"/>'
+        )
+        body.append(_text(320 + width, y + 16, f"{value:.3f} ms", weight=700))
+    write_text(out, _svg(780, 96 + len(rows) * 36, body))
 
 
 def write_visual_assets(

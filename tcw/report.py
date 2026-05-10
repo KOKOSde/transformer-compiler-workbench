@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any
 
 from tcw.io import read_json, write_text
-from tcw.visualize import write_visual_assets
+from tcw.visualize import write_benchmark_chart, write_visual_assets
 
 
 def _find_report(reports_dir: Path, name: str) -> dict[str, Any] | None:
@@ -32,6 +32,11 @@ def generate_report(reports_dir: str | Path, out: str | Path) -> str:
     baseline = _find_report(reports_dir, "baseline.json")
     opt = _find_report(reports_dir, "opt.json")
     validate = _find_report(reports_dir, "validate.json")
+    benchmark = _find_report(reports_dir, "benchmark.json")
+    if benchmark is None:
+        for candidate in sorted(reports_dir.glob("benchmark*.json")):
+            benchmark = read_json(candidate)
+            break
     lowering = None
     for candidate in reports_dir.glob("**/lowering.json"):
         lowering = read_json(candidate)
@@ -95,6 +100,40 @@ def generate_report(reports_dir: str | Path, out: str | Path) -> str:
                 "",
             ]
         )
+
+    if benchmark:
+        assets = reports_dir / "assets"
+        assets.mkdir(parents=True, exist_ok=True)
+        write_benchmark_chart(benchmark, assets / "benchmark_latency.svg")
+        lines.extend(
+            [
+                "",
+                "## Provider Benchmark",
+                "",
+                "![Provider latency benchmark](assets/benchmark_latency.svg)",
+                "",
+                "| Provider | Graph | Effective provider | p50 latency | Speedup vs first graph | Parity vs first graph |",
+                "|---|---|---|---:|---:|---|",
+            ]
+        )
+        for provider, provider_report in benchmark.get("providers", {}).items():
+            models = provider_report.get("models", {})
+            labels = [item["label"] for item in benchmark.get("models", [])]
+            for label in labels:
+                result = models.get(label, {})
+                if "error" in result:
+                    lines.append(f"| {provider} | {label} | error |  |  | false |")
+                    continue
+                latency = result.get("latency_ms", {})
+                speedup = result.get("speedup_vs_first_model")
+                speedup_text = (
+                    f"{speedup:.2f}x" if isinstance(speedup, (int, float)) else ""
+                )
+                parity = result.get("output_parity_vs_first_model", {}).get("parity")
+                lines.append(
+                    f"| {provider} | {label} | {result.get('effective_provider')} | "
+                    f"{latency.get('p50', 0):.3f} ms | {speedup_text} | {parity} |"
+                )
 
     lines.extend(["", "## Rewrite Passes", ""])
     if opt:

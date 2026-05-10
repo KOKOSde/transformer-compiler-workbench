@@ -1,0 +1,44 @@
+{
+  "baseline": "artifacts/model.onnx",
+  "candidate": "artifacts/model.opt.onnx",
+  "latency_ms": {
+    "baseline": {
+      "max": 0.18686428666114807,
+      "min": 0.17505697906017303,
+      "p50": 0.17720740288496017,
+      "runs": 20.0,
+      "session_providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ]
+    },
+    "candidate": {
+      "max": 0.18750876188278198,
+      "min": 0.17398782074451447,
+      "p50": 0.17689261585474014,
+      "runs": 20.0,
+      "session_providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+      ]
+    }
+  },
+  "output_parity": {
+    "atol": 1e-05,
+    "max_abs_diff": 0.0,
+    "max_rel_diff": 0.0,
+    "parity": true,
+    "rtol": 0.0001
+  },
+  "runtime": {
+    "available_providers": [
+      "TensorrtExecutionProvider",
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "platform": "Linux-6.8.0-90-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "requested_provider": "CUDAExecutionProvider"
+  },
+  "sample_input_path": "artifacts/model.inputs.npz"
+}

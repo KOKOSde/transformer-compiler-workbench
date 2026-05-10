@@ -15,6 +15,11 @@ visible, testable, and reproducible.
 The NVIDIA LPX-specific positioning is in
 [docs/NVIDIA_LPX_ALIGNMENT.md](docs/NVIDIA_LPX_ALIGNMENT.md).
 
+An NVIDIA GPU validation run from a Vast instance is recorded in
+[docs/VAST_GPU_RESULTS.md](docs/VAST_GPU_RESULTS.md). It validates parity under
+`CUDAExecutionProvider` and explicitly avoids claiming speedup for the tiny
+example graph.
+
 ## Architecture
 
 ```mermaid
@@ -132,6 +137,8 @@ python -m tcw validate artifacts/model.onnx artifacts/model.opt.onnx \
 
 If the requested provider is unavailable, the tool falls back to
 `CPUExecutionProvider` and records the available providers in the JSON report.
+The report also records the effective session providers used for latency
+measurement.
 
 ## Potential Upstream PRs
 

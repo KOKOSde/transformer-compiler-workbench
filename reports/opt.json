@@ -454,15 +454,15 @@
       "candidate": "artifacts/model.opt.onnx",
       "latency_ms": {
         "baseline": {
-          "max": 0.022499996703118086,
-          "min": 0.019333005184307694,
-          "p50": 0.020583003788487986,
+          "max": 0.021874999220017344,
+          "min": 0.017541999113745987,
+          "p50": 0.02014549681916833,
           "runs": 20.0
         },
         "candidate": {
-          "max": 0.022791005903854966,
-          "min": 0.018167003872804344,
-          "p50": 0.020416500774445012,
+          "max": 0.020499996026046574,
+          "min": 0.015167002857197076,
+          "p50": 0.017604499589651823,
           "runs": 20.0
         }
       },
@@ -472,6 +472,16 @@
         "max_rel_diff": 0.0,
         "parity": true,
         "rtol": 0.0001
+      },
+      "runtime": {
+        "available_providers": [
+          "CoreMLExecutionProvider",
+          "AzureExecutionProvider",
+          "CPUExecutionProvider"
+        ],
+        "platform": "macOS-26.2-arm64-arm-64bit",
+        "python": "3.12.6",
+        "requested_provider": "CPUExecutionProvider"
       },
       "sample_input_path": "artifacts/model.inputs.npz"
     },
@@ -480,15 +490,15 @@
       "candidate": "artifacts/model.opt.ort.onnx",
       "latency_ms": {
         "baseline": {
-          "max": 0.02066599699901417,
-          "min": 0.01599999814061448,
-          "p50": 0.017437498172512278,
+          "max": 0.027707996196113527,
+          "min": 0.01679199340287596,
+          "p50": 0.020041999960085377,
           "runs": 20.0
         },
         "candidate": {
-          "max": 0.06883400055812672,
-          "min": 0.016874997527338564,
-          "p50": 0.017624999600229785,
+          "max": 0.028333000955171883,
+          "min": 0.017541999113745987,
+          "p50": 0.019437000446487218,
           "runs": 20.0
         }
       },
@@ -498,6 +508,16 @@
         "max_rel_diff": 0.0,
         "parity": true,
         "rtol": 0.0001
+      },
+      "runtime": {
+        "available_providers": [
+          "CoreMLExecutionProvider",
+          "AzureExecutionProvider",
+          "CPUExecutionProvider"
+        ],
+        "platform": "macOS-26.2-arm64-arm-64bit",
+        "python": "3.12.6",
+        "requested_provider": "CPUExecutionProvider"
       },
       "sample_input_path": "artifacts/model.inputs.npz"
     }

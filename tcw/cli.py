@@ -31,12 +31,14 @@ def _build_parser() -> argparse.ArgumentParser:
     optimize.add_argument("--out", required=True)
     optimize.add_argument("--report", required=True)
     optimize.add_argument("--sample-inputs")
+    optimize.add_argument("--provider", default="CPUExecutionProvider")
 
     validate = subcommands.add_parser("validate", help="Validate output parity.")
     validate.add_argument("baseline")
     validate.add_argument("candidate")
     validate.add_argument("--out", required=True)
     validate.add_argument("--sample-inputs")
+    validate.add_argument("--provider", default="CPUExecutionProvider")
 
     lower = subcommands.add_parser("lower", help="Run optional ONNX-MLIR lowering.")
     lower.add_argument("model")
@@ -69,6 +71,7 @@ def main(argv: list[str] | None = None) -> None:
             args.out,
             report_path=args.report,
             sample_input_path=args.sample_inputs,
+            provider=args.provider,
         )
         print(f"Wrote optimized model: {args.out}")
         print(f"Wrote optimization report: {args.report}")
@@ -79,6 +82,7 @@ def main(argv: list[str] | None = None) -> None:
             args.candidate,
             sample_input_path=args.sample_inputs,
             out=args.out,
+            provider=args.provider,
         )
         print(f"Wrote validation report: {args.out}")
         return

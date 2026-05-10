@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import statistics
 import time
+import platform
 from pathlib import Path
 from typing import Any
 
@@ -13,13 +14,18 @@ from tcw.io import write_json
 from tcw.onnx_helpers import input_feeds, load_model
 
 
-def _session(path: str | Path) -> ort.InferenceSession:
+def _session(
+    path: str | Path, provider: str = "CPUExecutionProvider"
+) -> ort.InferenceSession:
     options = ort.SessionOptions()
     options.log_severity_level = 3
+    providers = [provider]
+    if provider not in ort.get_available_providers():
+        providers = ["CPUExecutionProvider"]
     return ort.InferenceSession(
         str(path),
         sess_options=options,
-        providers=["CPUExecutionProvider"],
+        providers=providers,
     )
 
 
@@ -28,8 +34,13 @@ def load_npz_inputs(path: str | Path) -> dict[str, np.ndarray]:
     return {key: data[key] for key in data.files}
 
 
-def run_outputs(path: str | Path, feeds: dict[str, np.ndarray]) -> list[np.ndarray]:
-    session = _session(path)
+def run_outputs(
+    path: str | Path,
+    feeds: dict[str, np.ndarray],
+    *,
+    provider: str = "CPUExecutionProvider",
+) -> list[np.ndarray]:
+    session = _session(path, provider=provider)
     session_inputs = {item.name for item in session.get_inputs()}
     filtered = {key: value for key, value in feeds.items() if key in session_inputs}
     return session.run(None, filtered)
@@ -77,10 +88,11 @@ def latency_ms(
     path: str | Path,
     feeds: dict[str, np.ndarray],
     *,
+    provider: str = "CPUExecutionProvider",
     warmup: int = 3,
     runs: int = 20,
 ) -> dict[str, float]:
-    session = _session(path)
+    session = _session(path, provider=provider)
     session_inputs = {item.name for item in session.get_inputs()}
     filtered = {key: value for key, value in feeds.items() if key in session_inputs}
     for _ in range(warmup):
@@ -104,6 +116,7 @@ def validate_models(
     *,
     sample_input_path: str | Path | None = None,
     out: str | Path | None = None,
+    provider: str = "CPUExecutionProvider",
 ) -> dict[str, Any]:
     baseline_model = load_model(baseline_path)
     onnx.checker.check_model(baseline_model)
@@ -114,17 +127,23 @@ def validate_models(
         if sample_input_path is not None
         else input_feeds(baseline_model)
     )
-    baseline_outputs = run_outputs(baseline_path, feeds)
-    candidate_outputs = run_outputs(candidate_path, feeds)
+    baseline_outputs = run_outputs(baseline_path, feeds, provider=provider)
+    candidate_outputs = run_outputs(candidate_path, feeds, provider=provider)
     comparison = compare_outputs(baseline_outputs, candidate_outputs)
     report = {
         "baseline": str(baseline_path),
         "candidate": str(candidate_path),
         "sample_input_path": str(sample_input_path) if sample_input_path else None,
+        "runtime": {
+            "requested_provider": provider,
+            "available_providers": ort.get_available_providers(),
+            "python": platform.python_version(),
+            "platform": platform.platform(),
+        },
         "output_parity": comparison,
         "latency_ms": {
-            "baseline": latency_ms(baseline_path, feeds),
-            "candidate": latency_ms(candidate_path, feeds),
+            "baseline": latency_ms(baseline_path, feeds, provider=provider),
+            "candidate": latency_ms(candidate_path, feeds, provider=provider),
         },
     }
     if out is not None:

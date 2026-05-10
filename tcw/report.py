@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 from tcw.io import read_json, write_text
+from tcw.visualize import write_visual_assets
 
 
 def _find_report(reports_dir: Path, name: str) -> dict[str, Any] | None:
@@ -41,6 +42,8 @@ def generate_report(reports_dir: str | Path, out: str | Path) -> str:
         "",
         "This report is CPU-first. It does not claim GPU or CUDA validation.",
         "",
+        "![Compiler workbench pipeline](assets/pipeline.svg)",
+        "",
         "## Graph Summary",
         "",
         "| Graph | Nodes | Cast | Transpose | Reshape | CPU latency p50 | Max output diff |",
@@ -77,6 +80,20 @@ def generate_report(reports_dir: str | Path, out: str | Path) -> str:
                 validate.get("latency_ms", {}).get("candidate"),
                 validate.get("output_parity"),
             )
+        )
+
+    if opt:
+        write_visual_assets(reports_dir, opt)
+        lines.extend(
+            [
+                "",
+                "![Node count by graph](assets/node_counts.svg)",
+                "",
+                "![Custom rewrite pass effects](assets/pass_effects.svg)",
+                "",
+                "![ORT graph rewrite footprint](assets/ort_op_delta.svg)",
+                "",
+            ]
         )
 
     lines.extend(["", "## Rewrite Passes", ""])

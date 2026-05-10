@@ -45,6 +45,7 @@ def optimize_model(
     *,
     report_path: str | Path | None = None,
     sample_input_path: str | Path | None = None,
+    provider: str = "CPUExecutionProvider",
 ) -> dict[str, Any]:
     in_path = Path(in_path)
     out_path = Path(out_path)
@@ -61,11 +62,13 @@ def optimize_model(
         in_path,
         ort_path,
         sample_input_path=sample_input_path,
+        provider=provider,
     )
     validation_custom = validate_models(
         in_path,
         out_path,
         sample_input_path=sample_input_path,
+        provider=provider,
     )
 
     report = {

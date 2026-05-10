@@ -1,5 +1,7 @@
 # transformer-compiler-workbench
 
+[![CI](https://github.com/KOKOSde/transformer-compiler-workbench/actions/workflows/ci.yml/badge.svg)](https://github.com/KOKOSde/transformer-compiler-workbench/actions/workflows/ci.yml)
+
 `transformer-compiler-workbench` is a CPU-first ONNX/MLIR workbench for
 studying how transformer inference graphs change through analysis, ONNX Runtime
 optimization, conservative graph rewrites, validation, and optional ONNX-MLIR
@@ -9,6 +11,9 @@ It is not a replacement for ONNX Runtime, ONNX Runtime transformer optimizer,
 Hugging Face Optimum, NVIDIA ONNX GraphSurgeon, or ONNX-MLIR. The goal is to
 connect compiler tools into a clear research workflow and make graph changes
 visible, testable, and reproducible.
+
+The NVIDIA LPX-specific positioning is in
+[docs/NVIDIA_LPX_ALIGNMENT.md](docs/NVIDIA_LPX_ALIGNMENT.md).
 
 ## Architecture
 
@@ -41,6 +46,12 @@ cp artifacts/mlir/lowering.json reports/lowering.json
 python -m tcw report --reports reports --out reports/index.md
 ```
 
+Or run the full workflow:
+
+```bash
+scripts/reproduce.sh
+```
+
 The MVP export command writes a deterministic tiny transformer-like ONNX graph.
 It intentionally avoids model downloads so the first workflow works on macOS
 CPU. The graph uses standard ONNX operators and includes attention-like,
@@ -59,6 +70,9 @@ patterns for analysis and rewrite experiments.
 
 Latency is ONNX Runtime CPU latency only. The project does not claim GPU,
 CUDA, TensorRT, or real deployment speedups.
+
+The report also emits SVG visualizations under `reports/assets/`, including the
+compiler workflow, node-count changes, custom pass effects, and ORT op deltas.
 
 ## Supported Rewrites
 
@@ -103,6 +117,21 @@ ruff format --check .
 ```
 
 The test suite is CPU-safe and uses tiny synthetic ONNX graphs.
+
+## Optional GPU Measurement
+
+The repo does not require a GPU. On a GPU machine with `onnxruntime-gpu`
+installed and a visible CUDA provider, validation can be rerun with:
+
+```bash
+python -m tcw validate artifacts/model.onnx artifacts/model.opt.onnx \
+  --out reports/validate.cuda.json \
+  --sample-inputs artifacts/model.inputs.npz \
+  --provider CUDAExecutionProvider
+```
+
+If the requested provider is unavailable, the tool falls back to
+`CPUExecutionProvider` and records the available providers in the JSON report.
 
 ## Potential Upstream PRs
 

@@ -3,15 +3,15 @@
   "candidate": "artifacts/model.opt.onnx",
   "latency_ms": {
     "baseline": {
-      "max": 0.02129199856426567,
-      "min": 0.017250000382773578,
-      "p50": 0.01852050263551064,
+      "max": 0.022833002731204033,
+      "min": 0.016665995644871145,
+      "p50": 0.017292000848101452,
       "runs": 20.0
     },
     "candidate": {
-      "max": 0.021749998268205673,
-      "min": 0.016834004782140255,
-      "p50": 0.019416500435909256,
+      "max": 0.023792003048583865,
+      "min": 0.018500002624932677,
+      "p50": 0.0195835018530488,
       "runs": 20.0
     }
   },
@@ -21,6 +21,16 @@
     "max_rel_diff": 0.0,
     "parity": true,
     "rtol": 0.0001
+  },
+  "runtime": {
+    "available_providers": [
+      "CoreMLExecutionProvider",
+      "AzureExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "platform": "macOS-26.2-arm64-arm-64bit",
+    "python": "3.12.6",
+    "requested_provider": "CPUExecutionProvider"
   },
   "sample_input_path": "artifacts/model.inputs.npz"
 }

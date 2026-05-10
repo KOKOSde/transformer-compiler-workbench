@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="220" viewBox="0 0 560 220" role="img">
+<rect width="100%" height="100%" fill="white"/>
+<text x="24" y="32" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="700" fill="#111827">Node count by graph</text>
+<text x="24" y="88" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="400" fill="#111827">Original</text>
+<rect x="150" y="70" width="360" height="24" rx="4" fill="#4f46e5"/>
+<text x="520" y="88" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#111827">51</text>
+<text x="24" y="134" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="400" fill="#111827">ORT optimized</text>
+<rect x="150" y="116" width="218" height="24" rx="4" fill="#0891b2"/>
+<text x="378" y="134" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#111827">31</text>
+<text x="24" y="180" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="400" fill="#111827">Custom rewrites</text>
+<rect x="150" y="162" width="338" height="24" rx="4" fill="#16a34a"/>
+<text x="498" y="180" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="#111827">48</text>
+</svg>

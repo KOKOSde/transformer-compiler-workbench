@@ -1,0 +1,141 @@
+{
+  "graph_name": "tcw_tiny_transformer_like",
+  "initializer_count": 16,
+  "longest_shape_only_chain": {
+    "length": 2,
+    "nodes": [
+      "cancel_transpose_1",
+      "cancel_transpose_2"
+    ],
+    "ops": [
+      "Transpose",
+      "Transpose"
+    ]
+  },
+  "model_path": "artifacts/model.onnx",
+  "node_count": 51,
+  "op_histogram": {
+    "Add": 13,
+    "Constant": 7,
+    "Div": 3,
+    "Erf": 1,
+    "Identity": 1,
+    "MatMul": 8,
+    "Mul": 4,
+    "Pow": 2,
+    "ReduceMean": 4,
+    "Softmax": 1,
+    "Sqrt": 2,
+    "Sub": 2,
+    "Transpose": 3
+  },
+  "patterns": {
+    "attention_like": [
+      {
+        "kind": "AttentionLike",
+        "matmul_count": 8,
+        "report_only": true,
+        "softmax_nodes": [
+          "attention_softmax"
+        ]
+      }
+    ],
+    "cast_heavy_regions": [],
+    "gelu_like": [
+      {
+        "kind": "ErfGeluLike",
+        "node": "gelu_erf"
+      }
+    ],
+    "layer_norm_like": [
+      {
+        "kind": "LayerNormLike",
+        "start": "ln1_mean"
+      },
+      {
+        "kind": "LayerNormLike",
+        "start": "ln2_mean"
+      }
+    ],
+    "matmul_add": [
+      {
+        "add": "q_add",
+        "matmul": "q_matmul"
+      },
+      {
+        "add": "k_add",
+        "matmul": "k_matmul"
+      },
+      {
+        "add": "v_add",
+        "matmul": "v_matmul"
+      },
+      {
+        "add": "attn_out_add",
+        "matmul": "attn_out_matmul"
+      },
+      {
+        "add": "ff1_add",
+        "matmul": "ff1_matmul"
+      },
+      {
+        "add": "ff2_add",
+        "matmul": "ff2_matmul"
+      }
+    ],
+    "matmul_add_gelu_like": [
+      {
+        "activation": "gelu_erf",
+        "add": "ff1_add",
+        "kind": "Erf",
+        "matmul": "ff1_matmul",
+        "report_only": true
+      }
+    ],
+    "transpose_reshape_chains": [
+      {
+        "nodes": [
+          "cancel_transpose_1",
+          "cancel_transpose_2"
+        ],
+        "ops": [
+          "Transpose",
+          "Transpose"
+        ],
+        "report_only": true
+      }
+    ]
+  },
+  "selected_op_counts": {
+    "Cast": 0,
+    "Constant": 7,
+    "Dropout": 0,
+    "Identity": 1,
+    "Reshape": 0,
+    "Transpose": 3
+  },
+  "shapes": {
+    "inputs": {
+      "hidden": [
+        1,
+        4,
+        8
+      ]
+    },
+    "outputs": {
+      "ln2": [
+        1,
+        4,
+        8
+      ]
+    }
+  },
+  "suspected_opportunities": [
+    "Remove Identity nodes when outputs are rewired safely.",
+    "Cancel adjacent Transpose pairs when permutations invert.",
+    "Report-only: MatMul + Add can feed future linear fusion passes.",
+    "Report-only: MatMul + Add + GELU-like regions can feed future MLP fusion passes.",
+    "Report-only: GELU-like regions can feed future activation fusion.",
+    "Report-only: LayerNorm-like subgraphs can feed canonicalization."
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "model_path": "artifacts/model.opt.onnx",
+  "reason": "onnx-mlir binary not found on PATH",
+  "setup_instructions": "artifacts/mlir/ONNX_MLIR_SETUP.md",
+  "status": "skipped"
+}

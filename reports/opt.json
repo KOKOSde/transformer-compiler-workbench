@@ -1,0 +1,505 @@
+{
+  "custom_optimized_model": "artifacts/model.opt.onnx",
+  "graphs": {
+    "custom_optimized": {
+      "graph_name": "tcw_tiny_transformer_like",
+      "initializer_count": 16,
+      "longest_shape_only_chain": {
+        "length": 1,
+        "nodes": [
+          "k_transpose"
+        ],
+        "ops": [
+          "Transpose"
+        ]
+      },
+      "model_path": "artifacts/model.opt.onnx",
+      "node_count": 48,
+      "op_histogram": {
+        "Add": 13,
+        "Constant": 7,
+        "Div": 3,
+        "Erf": 1,
+        "MatMul": 8,
+        "Mul": 4,
+        "Pow": 2,
+        "ReduceMean": 4,
+        "Softmax": 1,
+        "Sqrt": 2,
+        "Sub": 2,
+        "Transpose": 1
+      },
+      "patterns": {
+        "attention_like": [
+          {
+            "kind": "AttentionLike",
+            "matmul_count": 8,
+            "report_only": true,
+            "softmax_nodes": [
+              "attention_softmax"
+            ]
+          }
+        ],
+        "cast_heavy_regions": [],
+        "gelu_like": [
+          {
+            "kind": "ErfGeluLike",
+            "node": "gelu_erf"
+          }
+        ],
+        "layer_norm_like": [
+          {
+            "kind": "LayerNormLike",
+            "start": "ln1_mean"
+          },
+          {
+            "kind": "LayerNormLike",
+            "start": "ln2_mean"
+          }
+        ],
+        "matmul_add": [
+          {
+            "add": "q_add",
+            "matmul": "q_matmul"
+          },
+          {
+            "add": "k_add",
+            "matmul": "k_matmul"
+          },
+          {
+            "add": "v_add",
+            "matmul": "v_matmul"
+          },
+          {
+            "add": "attn_out_add",
+            "matmul": "attn_out_matmul"
+          },
+          {
+            "add": "ff1_add",
+            "matmul": "ff1_matmul"
+          },
+          {
+            "add": "ff2_add",
+            "matmul": "ff2_matmul"
+          }
+        ],
+        "matmul_add_gelu_like": [
+          {
+            "activation": "gelu_erf",
+            "add": "ff1_add",
+            "kind": "Erf",
+            "matmul": "ff1_matmul",
+            "report_only": true
+          }
+        ],
+        "transpose_reshape_chains": []
+      },
+      "selected_op_counts": {
+        "Cast": 0,
+        "Constant": 7,
+        "Dropout": 0,
+        "Identity": 0,
+        "Reshape": 0,
+        "Transpose": 1
+      },
+      "shapes": {
+        "inputs": {
+          "hidden": [
+            1,
+            4,
+            8
+          ]
+        },
+        "outputs": {
+          "ln2": [
+            1,
+            4,
+            8
+          ]
+        }
+      },
+      "suspected_opportunities": [
+        "Report-only: MatMul + Add can feed future linear fusion passes.",
+        "Report-only: MatMul + Add + GELU-like regions can feed future MLP fusion passes.",
+        "Report-only: GELU-like regions can feed future activation fusion.",
+        "Report-only: LayerNorm-like subgraphs can feed canonicalization."
+      ]
+    },
+    "original": {
+      "graph_name": "tcw_tiny_transformer_like",
+      "initializer_count": 16,
+      "longest_shape_only_chain": {
+        "length": 2,
+        "nodes": [
+          "cancel_transpose_1",
+          "cancel_transpose_2"
+        ],
+        "ops": [
+          "Transpose",
+          "Transpose"
+        ]
+      },
+      "model_path": "artifacts/model.onnx",
+      "node_count": 51,
+      "op_histogram": {
+        "Add": 13,
+        "Constant": 7,
+        "Div": 3,
+        "Erf": 1,
+        "Identity": 1,
+        "MatMul": 8,
+        "Mul": 4,
+        "Pow": 2,
+        "ReduceMean": 4,
+        "Softmax": 1,
+        "Sqrt": 2,
+        "Sub": 2,
+        "Transpose": 3
+      },
+      "patterns": {
+        "attention_like": [
+          {
+            "kind": "AttentionLike",
+            "matmul_count": 8,
+            "report_only": true,
+            "softmax_nodes": [
+              "attention_softmax"
+            ]
+          }
+        ],
+        "cast_heavy_regions": [],
+        "gelu_like": [
+          {
+            "kind": "ErfGeluLike",
+            "node": "gelu_erf"
+          }
+        ],
+        "layer_norm_like": [
+          {
+            "kind": "LayerNormLike",
+            "start": "ln1_mean"
+          },
+          {
+            "kind": "LayerNormLike",
+            "start": "ln2_mean"
+          }
+        ],
+        "matmul_add": [
+          {
+            "add": "q_add",
+            "matmul": "q_matmul"
+          },
+          {
+            "add": "k_add",
+            "matmul": "k_matmul"
+          },
+          {
+            "add": "v_add",
+            "matmul": "v_matmul"
+          },
+          {
+            "add": "attn_out_add",
+            "matmul": "attn_out_matmul"
+          },
+          {
+            "add": "ff1_add",
+            "matmul": "ff1_matmul"
+          },
+          {
+            "add": "ff2_add",
+            "matmul": "ff2_matmul"
+          }
+        ],
+        "matmul_add_gelu_like": [
+          {
+            "activation": "gelu_erf",
+            "add": "ff1_add",
+            "kind": "Erf",
+            "matmul": "ff1_matmul",
+            "report_only": true
+          }
+        ],
+        "transpose_reshape_chains": [
+          {
+            "nodes": [
+              "cancel_transpose_1",
+              "cancel_transpose_2"
+            ],
+            "ops": [
+              "Transpose",
+              "Transpose"
+            ],
+            "report_only": true
+          }
+        ]
+      },
+      "selected_op_counts": {
+        "Cast": 0,
+        "Constant": 7,
+        "Dropout": 0,
+        "Identity": 1,
+        "Reshape": 0,
+        "Transpose": 3
+      },
+      "shapes": {
+        "inputs": {
+          "hidden": [
+            1,
+            4,
+            8
+          ]
+        },
+        "outputs": {
+          "ln2": [
+            1,
+            4,
+            8
+          ]
+        }
+      },
+      "suspected_opportunities": [
+        "Remove Identity nodes when outputs are rewired safely.",
+        "Cancel adjacent Transpose pairs when permutations invert.",
+        "Report-only: MatMul + Add can feed future linear fusion passes.",
+        "Report-only: MatMul + Add + GELU-like regions can feed future MLP fusion passes.",
+        "Report-only: GELU-like regions can feed future activation fusion.",
+        "Report-only: LayerNorm-like subgraphs can feed canonicalization."
+      ]
+    },
+    "ort_optimized": {
+      "graph_name": "tcw_tiny_transformer_like",
+      "initializer_count": 29,
+      "longest_shape_only_chain": {
+        "length": 2,
+        "nodes": [
+          "gemm_output_reshape",
+          "k_transpose"
+        ],
+        "ops": [
+          "Reshape",
+          "Transpose"
+        ]
+      },
+      "model_path": "artifacts/model.opt.ort.onnx",
+      "node_count": 31,
+      "op_histogram": {
+        "Add": 3,
+        "Div": 1,
+        "Erf": 1,
+        "Gemm": 6,
+        "LayerNormalization": 2,
+        "MatMul": 2,
+        "Mul": 2,
+        "Reshape": 12,
+        "Softmax": 1,
+        "Transpose": 1
+      },
+      "patterns": {
+        "attention_like": [],
+        "cast_heavy_regions": [],
+        "gelu_like": [
+          {
+            "kind": "ErfGeluLike",
+            "node": "gelu_erf"
+          }
+        ],
+        "layer_norm_like": [],
+        "matmul_add": [],
+        "matmul_add_gelu_like": [],
+        "transpose_reshape_chains": [
+          {
+            "nodes": [
+              "gemm_output_reshape",
+              "k_transpose"
+            ],
+            "ops": [
+              "Reshape",
+              "Transpose"
+            ],
+            "report_only": true
+          }
+        ]
+      },
+      "selected_op_counts": {
+        "Cast": 0,
+        "Constant": 0,
+        "Dropout": 0,
+        "Identity": 0,
+        "Reshape": 12,
+        "Transpose": 1
+      },
+      "shapes": {
+        "inputs": {
+          "hidden": [
+            1,
+            4,
+            8
+          ]
+        },
+        "outputs": {
+          "ln2": [
+            1,
+            4,
+            8
+          ]
+        }
+      },
+      "suspected_opportunities": [
+        "Report-only: GELU-like regions can feed future activation fusion."
+      ]
+    }
+  },
+  "input_model": "artifacts/model.onnx",
+  "node_count_delta": {
+    "custom": -3,
+    "ort": -20
+  },
+  "op_changes": {
+    "custom": {
+      "added_ops": {},
+      "removed_ops": {
+        "Identity": 1,
+        "Transpose": 2
+      }
+    },
+    "ort": {
+      "added_ops": {
+        "Gemm": 6,
+        "LayerNormalization": 2,
+        "Reshape": 12
+      },
+      "removed_ops": {
+        "Add": 10,
+        "Constant": 7,
+        "Div": 2,
+        "Identity": 1,
+        "MatMul": 6,
+        "Mul": 2,
+        "Pow": 2,
+        "ReduceMean": 4,
+        "Sqrt": 2,
+        "Sub": 2,
+        "Transpose": 2
+      }
+    }
+  },
+  "op_histogram_delta": {
+    "custom": {
+      "Add": 0,
+      "Constant": 0,
+      "Div": 0,
+      "Erf": 0,
+      "Identity": -1,
+      "MatMul": 0,
+      "Mul": 0,
+      "Pow": 0,
+      "ReduceMean": 0,
+      "Softmax": 0,
+      "Sqrt": 0,
+      "Sub": 0,
+      "Transpose": -2
+    },
+    "ort": {
+      "Add": -10,
+      "Constant": -7,
+      "Div": -2,
+      "Erf": 0,
+      "Gemm": 6,
+      "Identity": -1,
+      "LayerNormalization": 2,
+      "MatMul": -6,
+      "Mul": -2,
+      "Pow": -2,
+      "ReduceMean": -4,
+      "Reshape": 12,
+      "Softmax": 0,
+      "Sqrt": -2,
+      "Sub": -2,
+      "Transpose": -2
+    }
+  },
+  "ort_optimized_model": "artifacts/model.opt.ort.onnx",
+  "rewrite_passes": [
+    {
+      "changed": 1,
+      "name": "remove_identity",
+      "notes": []
+    },
+    {
+      "changed": 0,
+      "name": "remove_dropout_inference",
+      "notes": []
+    },
+    {
+      "changed": 0,
+      "name": "collapse_cast_chains",
+      "notes": []
+    },
+    {
+      "changed": 1,
+      "name": "collapse_transpose_pairs",
+      "notes": [
+        "Removed canceling pair cancel_transpose_1 -> cancel_transpose_2."
+      ]
+    },
+    {
+      "changed": 0,
+      "name": "remove_noop_reshape",
+      "notes": []
+    }
+  ],
+  "validation": {
+    "custom": {
+      "baseline": "artifacts/model.onnx",
+      "candidate": "artifacts/model.opt.onnx",
+      "latency_ms": {
+        "baseline": {
+          "max": 0.022499996703118086,
+          "min": 0.019333005184307694,
+          "p50": 0.020583003788487986,
+          "runs": 20.0
+        },
+        "candidate": {
+          "max": 0.022791005903854966,
+          "min": 0.018167003872804344,
+          "p50": 0.020416500774445012,
+          "runs": 20.0
+        }
+      },
+      "output_parity": {
+        "atol": 1e-05,
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "parity": true,
+        "rtol": 0.0001
+      },
+      "sample_input_path": "artifacts/model.inputs.npz"
+    },
+    "ort": {
+      "baseline": "artifacts/model.onnx",
+      "candidate": "artifacts/model.opt.ort.onnx",
+      "latency_ms": {
+        "baseline": {
+          "max": 0.02066599699901417,
+          "min": 0.01599999814061448,
+          "p50": 0.017437498172512278,
+          "runs": 20.0
+        },
+        "candidate": {
+          "max": 0.06883400055812672,
+          "min": 0.016874997527338564,
+          "p50": 0.017624999600229785,
+          "runs": 20.0
+        }
+      },
+      "output_parity": {
+        "atol": 1e-05,
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "parity": true,
+        "rtol": 0.0001
+      },
+      "sample_input_path": "artifacts/model.inputs.npz"
+    }
+  }
+}

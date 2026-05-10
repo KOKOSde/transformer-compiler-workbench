@@ -1,0 +1,26 @@
+{
+  "baseline": "artifacts/model.onnx",
+  "candidate": "artifacts/model.opt.onnx",
+  "latency_ms": {
+    "baseline": {
+      "max": 0.02129199856426567,
+      "min": 0.017250000382773578,
+      "p50": 0.01852050263551064,
+      "runs": 20.0
+    },
+    "candidate": {
+      "max": 0.021749998268205673,
+      "min": 0.016834004782140255,
+      "p50": 0.019416500435909256,
+      "runs": 20.0
+    }
+  },
+  "output_parity": {
+    "atol": 1e-05,
+    "max_abs_diff": 0.0,
+    "max_rel_diff": 0.0,
+    "parity": true,
+    "rtol": 0.0001
+  },
+  "sample_input_path": "artifacts/model.inputs.npz"
+}

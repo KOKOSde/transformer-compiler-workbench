@@ -9,8 +9,8 @@ This report is CPU-first. It does not claim GPU or CUDA validation.
 | Graph | Nodes | Cast | Transpose | Reshape | CPU latency p50 | Max output diff |
 |---|---:|---:|---:|---:|---:|---:|
 | Original | 51 | 0 | 3 | 0 |  | 0 |
-| ORT optimized | 31 | 0 | 1 | 12 | 0.015 ms | 0 |
-| Custom optimized | 48 | 0 | 1 | 0 | 0.019 ms | 0 |
+| ORT optimized | 31 | 0 | 1 | 12 | 0.019 ms | 0 |
+| Custom optimized | 48 | 0 | 1 | 0 | 0.018 ms | 0 |
 
 ![Node count by graph](assets/node_counts.svg)
 
@@ -23,11 +23,11 @@ This report is CPU-first. It does not claim GPU or CUDA validation.
 
 ![Provider latency benchmark](assets/benchmark_latency.svg)
 
-| Provider | Graph | Effective provider | p50 latency | Speedup vs first graph | Parity vs first graph |
-|---|---|---|---:|---:|---|
-| CPUExecutionProvider | Original | True | 0.019 ms | 1.00x | True |
-| CPUExecutionProvider | Custom | True | 0.018 ms | 1.05x | True |
-| CPUExecutionProvider | ORT | True | 0.018 ms | 1.07x | True |
+| Provider | Graph | Effective provider | p50 latency | Parity vs first graph |
+|---|---|---|---:|---|
+| CPUExecutionProvider | Original | True | 0.016 ms | True |
+| CPUExecutionProvider | Custom | True | 0.020 ms | True |
+| CPUExecutionProvider | ORT | True | 0.019 ms | True |
 
 ## Rewrite Passes
 
@@ -64,9 +64,12 @@ This report is CPU-first. It does not claim GPU or CUDA validation.
 - `reports/assets/ort_op_delta.svg`
 - `reports/assets/pass_effects.svg`
 - `reports/assets/pipeline.svg`
+- `reports/assets/vast_benchmark_latency.svg`
+- `reports/assets/vast_provider_speedups.svg`
 - `reports/baseline.json`
 - `reports/baseline.md`
 - `reports/benchmark.json`
+- `reports/benchmark.vast.json`
 - `reports/index.md`
 - `reports/lowering.json`
 - `reports/opt.json`

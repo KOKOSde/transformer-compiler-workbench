@@ -1,0 +1,198 @@
+{
+  "models": [
+    {
+      "label": "Original",
+      "node_count": 204,
+      "path": "artifacts/benchmark.onnx",
+      "selected_op_counts": {
+        "Cast": 0,
+        "Constant": 28,
+        "Dropout": 0,
+        "Identity": 4,
+        "Reshape": 0,
+        "Transpose": 12
+      },
+      "size_bytes": 12653846
+    },
+    {
+      "label": "Custom",
+      "node_count": 192,
+      "path": "artifacts/benchmark.opt.onnx",
+      "selected_op_counts": {
+        "Cast": 0,
+        "Constant": 28,
+        "Dropout": 0,
+        "Identity": 0,
+        "Reshape": 0,
+        "Transpose": 4
+      },
+      "size_bytes": 12652670
+    },
+    {
+      "label": "ORT",
+      "node_count": 124,
+      "path": "artifacts/benchmark.opt.ort.onnx",
+      "selected_op_counts": {
+        "Cast": 0,
+        "Constant": 0,
+        "Dropout": 0,
+        "Identity": 0,
+        "Reshape": 48,
+        "Transpose": 4
+      },
+      "size_bytes": 12658792
+    }
+  ],
+  "provider_speedups_vs_cpu": {
+    "CUDAExecutionProvider": {
+      "Custom": 26.639447946137917,
+      "ORT": 27.161670229741524,
+      "Original": 27.359563814803035
+    }
+  },
+  "providers": {
+    "CPUExecutionProvider": {
+      "models": {
+        "Custom": {
+          "effective_provider": true,
+          "latency_ms": {
+            "max": 68.65260750055313,
+            "min": 12.839123606681824,
+            "p50": 13.741197064518929,
+            "runs": 50.0,
+            "session_providers": [
+              "CPUExecutionProvider"
+            ]
+          },
+          "output_parity_vs_first_model": {
+            "atol": 1e-05,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "parity": true,
+            "rtol": 0.0001
+          },
+          "speedup_vs_first_model": 1.0202933369878122
+        },
+        "ORT": {
+          "effective_provider": true,
+          "latency_ms": {
+            "max": 68.87146271765232,
+            "min": 13.395462185144424,
+            "p50": 13.997972942888737,
+            "runs": 50.0,
+            "session_providers": [
+              "CPUExecutionProvider"
+            ]
+          },
+          "output_parity_vs_first_model": {
+            "atol": 1e-05,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "parity": true,
+            "rtol": 0.0001
+          },
+          "speedup_vs_first_model": 1.0015772901095388
+        },
+        "Original": {
+          "effective_provider": true,
+          "latency_ms": {
+            "max": 317.5433371216059,
+            "min": 11.371206492185593,
+            "p50": 14.020051807165146,
+            "runs": 50.0,
+            "session_providers": [
+              "CPUExecutionProvider"
+            ]
+          },
+          "output_parity_vs_first_model": {
+            "atol": 1e-05,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "parity": true,
+            "rtol": 0.0001
+          },
+          "speedup_vs_first_model": 1.0
+        }
+      },
+      "requested_provider": "CPUExecutionProvider"
+    },
+    "CUDAExecutionProvider": {
+      "models": {
+        "Custom": {
+          "effective_provider": true,
+          "latency_ms": {
+            "max": 0.5396008491516113,
+            "min": 0.5052424967288971,
+            "p50": 0.5158213898539543,
+            "runs": 50.0,
+            "session_providers": [
+              "CUDAExecutionProvider",
+              "CPUExecutionProvider"
+            ]
+          },
+          "output_parity_vs_first_model": {
+            "atol": 1e-05,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "parity": true,
+            "rtol": 0.0001
+          },
+          "speedup_vs_first_model": 0.9934387632953513
+        },
+        "ORT": {
+          "effective_provider": true,
+          "latency_ms": {
+            "max": 0.6651971489191055,
+            "min": 0.5030632019042969,
+            "p50": 0.5153575912117958,
+            "runs": 50.0,
+            "session_providers": [
+              "CUDAExecutionProvider",
+              "CPUExecutionProvider"
+            ]
+          },
+          "output_parity_vs_first_model": {
+            "atol": 1e-05,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "parity": true,
+            "rtol": 0.0001
+          },
+          "speedup_vs_first_model": 0.994332813479808
+        },
+        "Original": {
+          "effective_provider": true,
+          "latency_ms": {
+            "max": 0.5277823656797409,
+            "min": 0.5052927881479263,
+            "p50": 0.5124369636178017,
+            "runs": 50.0,
+            "session_providers": [
+              "CUDAExecutionProvider",
+              "CPUExecutionProvider"
+            ]
+          },
+          "output_parity_vs_first_model": {
+            "atol": 1e-05,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "parity": true,
+            "rtol": 0.0001
+          },
+          "speedup_vs_first_model": 1.0
+        }
+      },
+      "requested_provider": "CUDAExecutionProvider"
+    }
+  },
+  "runtime": {
+    "available_providers": [
+      "TensorrtExecutionProvider",
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ],
+    "platform": "Linux-6.8.0-90-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3"
+  },
+  "sample_input_path": "artifacts/benchmark.inputs.npz"
+}

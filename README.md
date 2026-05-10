@@ -16,9 +16,9 @@ The NVIDIA LPX-specific positioning is in
 [docs/NVIDIA_LPX_ALIGNMENT.md](docs/NVIDIA_LPX_ALIGNMENT.md).
 
 An NVIDIA GPU validation run from a Vast instance is recorded in
-[docs/VAST_GPU_RESULTS.md](docs/VAST_GPU_RESULTS.md). It validates parity under
-`CUDAExecutionProvider` and explicitly avoids claiming speedup for the tiny
-example graph.
+[docs/VAST_GPU_RESULTS.md](docs/VAST_GPU_RESULTS.md). It includes the root cause
+for the original tiny-graph GPU result and a larger standard-ONNX benchmark
+showing `CUDAExecutionProvider` as the effective provider.
 
 ## Architecture
 

@@ -50,9 +50,9 @@
         "Custom": {
           "effective_provider": true,
           "latency_ms": {
-            "max": 0.020250001398380846,
-            "min": 0.014042001566849649,
-            "p50": 0.018374998035142198,
+            "max": 0.02337499608984217,
+            "min": 0.017416998161934316,
+            "p50": 0.01966700074262917,
             "runs": 20.0,
             "session_providers": [
               "CPUExecutionProvider"
@@ -65,14 +65,14 @@
             "parity": true,
             "rtol": 0.0001
           },
-          "speedup_vs_first_model": 1.047619217320701
+          "speedup_vs_first_model": 0.8177660698509662
         },
         "ORT": {
           "effective_provider": true,
           "latency_ms": {
-            "max": 0.020457999198697507,
-            "min": 0.01620799594093114,
-            "p50": 0.017937498341780156,
+            "max": 0.02300000051036477,
+            "min": 0.016083999071270227,
+            "p50": 0.018896000256063417,
             "runs": 20.0,
             "session_providers": [
               "CPUExecutionProvider"
@@ -85,14 +85,14 @@
             "parity": true,
             "rtol": 0.0001
           },
-          "speedup_vs_first_model": 1.0731708900013022
+          "speedup_vs_first_model": 0.8511328156811978
         },
         "Original": {
           "effective_provider": true,
           "latency_ms": {
-            "max": 0.022791005903854966,
-            "min": 0.017083999409805983,
-            "p50": 0.01925000105984509,
+            "max": 0.01937500201165676,
+            "min": 0.015374993381556123,
+            "p50": 0.01608300590305589,
             "runs": 20.0,
             "session_providers": [
               "CPUExecutionProvider"

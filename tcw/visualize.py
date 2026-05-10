@@ -169,6 +169,41 @@ def write_benchmark_chart(benchmark: dict[str, Any], out: Path) -> None:
     write_text(out, _svg(780, 96 + len(rows) * 36, body))
 
 
+def write_provider_speedup_chart(benchmark: dict[str, Any], out: Path) -> None:
+    rows: list[tuple[str, float, str]] = []
+    labels = [item["label"] for item in benchmark.get("models", [])]
+    for provider, provider_speedups in benchmark.get(
+        "provider_speedups_vs_cpu", {}
+    ).items():
+        for index, label in enumerate(labels):
+            value = provider_speedups.get(label)
+            if value is not None:
+                rows.append(
+                    (
+                        f"{provider.replace('ExecutionProvider', '')}: {label}",
+                        float(value),
+                        BAR_COLORS[index % len(BAR_COLORS)],
+                    )
+                )
+
+    body = [_text(24, 32, "Provider speedup vs CPU", size=18, weight=700)]
+    if not rows:
+        body.append(_text(24, 70, "No cross-provider speedups recorded.", size=14))
+        write_text(out, _svg(720, 120, body))
+        return
+
+    max_value = max(value for _, value, _ in rows)
+    for index, (label, value, color) in enumerate(rows):
+        y = 66 + index * 36
+        width = max(3, int((value / max_value) * 360))
+        body.append(_text(24, y + 16, label, size=12))
+        body.append(
+            f'<rect x="260" y="{y}" width="{width}" height="20" rx="4" fill="{color}"/>'
+        )
+        body.append(_text(270 + width, y + 16, f"{value:.2f}x", weight=700))
+    write_text(out, _svg(760, 96 + len(rows) * 36, body))
+
+
 def write_visual_assets(
     reports_dir: str | Path, opt_report: dict[str, Any]
 ) -> list[Path]:

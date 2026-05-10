@@ -79,10 +79,38 @@ def benchmark_models(
             runs=runs,
         )
         report["providers"][provider] = provider_report
+    report["provider_speedups_vs_cpu"] = _provider_speedups_vs_cpu(report)
 
     if out is not None:
         write_json(out, report)
     return report
+
+
+def _provider_speedups_vs_cpu(report: dict[str, Any]) -> dict[str, dict[str, float]]:
+    providers = report.get("providers", {})
+    cpu = providers.get("CPUExecutionProvider", {}).get("models", {})
+    speedups: dict[str, dict[str, float]] = {}
+    for provider, provider_report in providers.items():
+        if provider == "CPUExecutionProvider":
+            continue
+        provider_speedups: dict[str, float] = {}
+        models = provider_report.get("models", {})
+        for item in report.get("models", []):
+            label = item["label"]
+            cpu_row = cpu.get(label, {})
+            provider_row = models.get(label, {})
+            if not cpu_row.get("effective_provider") or not provider_row.get(
+                "effective_provider"
+            ):
+                continue
+            cpu_p50 = cpu_row.get("latency_ms", {}).get("p50")
+            provider_p50 = provider_row.get("latency_ms", {}).get("p50")
+            if cpu_p50 is None or provider_p50 in (None, 0):
+                continue
+            provider_speedups[label] = float(cpu_p50) / float(provider_p50)
+        if provider_speedups:
+            speedups[provider] = provider_speedups
+    return speedups
 
 
 def _benchmark_provider(

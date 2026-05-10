@@ -43,15 +43,16 @@
       "size_bytes": 8092
     }
   ],
+  "provider_speedups_vs_cpu": {},
   "providers": {
     "CPUExecutionProvider": {
       "models": {
         "Custom": {
           "effective_provider": true,
           "latency_ms": {
-            "max": 0.01799999881768599,
-            "min": 0.014582998119294643,
-            "p50": 0.01518700082669966,
+            "max": 0.020250001398380846,
+            "min": 0.014042001566849649,
+            "p50": 0.018374998035142198,
             "runs": 20.0,
             "session_providers": [
               "CPUExecutionProvider"
@@ -64,14 +65,14 @@
             "parity": true,
             "rtol": 0.0001
           },
-          "speedup_vs_first_model": 1.0233422787634945
+          "speedup_vs_first_model": 1.047619217320701
         },
         "ORT": {
           "effective_provider": true,
           "latency_ms": {
-            "max": 0.018665996321942657,
-            "min": 0.01454199809813872,
-            "p50": 0.015249999705702066,
+            "max": 0.020457999198697507,
+            "min": 0.01620799594093114,
+            "p50": 0.017937498341780156,
             "runs": 20.0,
             "session_providers": [
               "CPUExecutionProvider"
@@ -84,14 +85,14 @@
             "parity": true,
             "rtol": 0.0001
           },
-          "speedup_vs_first_model": 1.019114775967297
+          "speedup_vs_first_model": 1.0731708900013022
         },
         "Original": {
           "effective_provider": true,
           "latency_ms": {
-            "max": 0.02008400042541325,
-            "min": 0.014666999049950391,
-            "p50": 0.015541500033577904,
+            "max": 0.022791005903854966,
+            "min": 0.017083999409805983,
+            "p50": 0.01925000105984509,
             "runs": 20.0,
             "session_providers": [
               "CPUExecutionProvider"

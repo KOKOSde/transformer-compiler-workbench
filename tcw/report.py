@@ -134,6 +134,21 @@ def generate_report(reports_dir: str | Path, out: str | Path) -> str:
                     f"| {provider} | {label} | {result.get('effective_provider')} | "
                     f"{latency.get('p50', 0):.3f} ms | {speedup_text} | {parity} |"
                 )
+        speedups = benchmark.get("provider_speedups_vs_cpu", {})
+        if speedups:
+            lines.extend(
+                [
+                    "",
+                    "| Provider | Graph | p50 speedup vs CPU |",
+                    "|---|---|---:|",
+                ]
+            )
+            labels = [item["label"] for item in benchmark.get("models", [])]
+            for provider, provider_speedups in speedups.items():
+                for label in labels:
+                    value = provider_speedups.get(label)
+                    if value is not None:
+                        lines.append(f"| {provider} | {label} | {value:.2f}x |")
 
     lines.extend(["", "## Rewrite Passes", ""])
     if opt:

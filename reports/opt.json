@@ -454,16 +454,22 @@
       "candidate": "artifacts/model.opt.onnx",
       "latency_ms": {
         "baseline": {
-          "max": 0.021874999220017344,
-          "min": 0.017541999113745987,
-          "p50": 0.02014549681916833,
-          "runs": 20.0
+          "max": 0.022708998585585505,
+          "min": 0.01683399750618264,
+          "p50": 0.019729504856513813,
+          "runs": 20.0,
+          "session_providers": [
+            "CPUExecutionProvider"
+          ]
         },
         "candidate": {
-          "max": 0.020499996026046574,
-          "min": 0.015167002857197076,
-          "p50": 0.017604499589651823,
-          "runs": 20.0
+          "max": 0.027959002181887627,
+          "min": 0.017958001990336925,
+          "p50": 0.020249499357305467,
+          "runs": 20.0,
+          "session_providers": [
+            "CPUExecutionProvider"
+          ]
         }
       },
       "output_parity": {
@@ -490,16 +496,22 @@
       "candidate": "artifacts/model.opt.ort.onnx",
       "latency_ms": {
         "baseline": {
-          "max": 0.027707996196113527,
-          "min": 0.01679199340287596,
-          "p50": 0.020041999960085377,
-          "runs": 20.0
+          "max": 0.02270800177939236,
+          "min": 0.016417005099356174,
+          "p50": 0.01881199932540767,
+          "runs": 20.0,
+          "session_providers": [
+            "CPUExecutionProvider"
+          ]
         },
         "candidate": {
-          "max": 0.028333000955171883,
-          "min": 0.017541999113745987,
-          "p50": 0.019437000446487218,
-          "runs": 20.0
+          "max": 0.021292005840223283,
+          "min": 0.014541001291945577,
+          "p50": 0.01566649734741077,
+          "runs": 20.0,
+          "session_providers": [
+            "CPUExecutionProvider"
+          ]
         }
       },
       "output_parity": {

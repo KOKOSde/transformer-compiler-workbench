@@ -91,7 +91,7 @@ def latency_ms(
     provider: str = "CPUExecutionProvider",
     warmup: int = 3,
     runs: int = 20,
-) -> dict[str, float]:
+) -> dict[str, Any]:
     session = _session(path, provider=provider)
     session_inputs = {item.name for item in session.get_inputs()}
     filtered = {key: value for key, value in feeds.items() if key in session_inputs}
@@ -107,6 +107,7 @@ def latency_ms(
         "min": min(samples),
         "max": max(samples),
         "runs": float(runs),
+        "session_providers": session.get_providers(),
     }
 
 

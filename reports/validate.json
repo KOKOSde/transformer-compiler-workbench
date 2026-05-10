@@ -3,16 +3,22 @@
   "candidate": "artifacts/model.opt.onnx",
   "latency_ms": {
     "baseline": {
-      "max": 0.022833002731204033,
-      "min": 0.016665995644871145,
-      "p50": 0.017292000848101452,
-      "runs": 20.0
+      "max": 0.021917003323324025,
+      "min": 0.016250000044237822,
+      "p50": 0.017937498341780156,
+      "runs": 20.0,
+      "session_providers": [
+        "CPUExecutionProvider"
+      ]
     },
     "candidate": {
-      "max": 0.023792003048583865,
-      "min": 0.018500002624932677,
-      "p50": 0.0195835018530488,
-      "runs": 20.0
+      "max": 0.02020800457103178,
+      "min": 0.01612499909242615,
+      "p50": 0.01695850005489774,
+      "runs": 20.0,
+      "session_providers": [
+        "CPUExecutionProvider"
+      ]
     }
   },
   "output_parity": {

@@ -9,8 +9,8 @@ This report is CPU-first. It does not claim GPU or CUDA validation.
 | Graph | Nodes | Cast | Transpose | Reshape | CPU latency p50 | Max output diff |
 |---|---:|---:|---:|---:|---:|---:|
 | Original | 51 | 0 | 3 | 0 |  | 0 |
-| ORT optimized | 31 | 0 | 1 | 12 | 0.019 ms | 0 |
-| Custom optimized | 48 | 0 | 1 | 0 | 0.018 ms | 0 |
+| ORT optimized | 31 | 0 | 1 | 12 | 0.016 ms | 0 |
+| Custom optimized | 48 | 0 | 1 | 0 | 0.020 ms | 0 |
 
 ![Node count by graph](assets/node_counts.svg)
 

@@ -76,13 +76,11 @@ python -m tcw benchmark \
 
 ## Result
 
-![Vast provider speedup vs CPU](../reports/assets/vast_provider_speedups.svg)
-
-| Graph | Nodes | CPU p50 | CUDA p50 | CUDA speedup vs CPU | Max output diff | Parity |
-|---|---:|---:|---:|---:|---:|---|
-| Original | 204 | 14.020 ms | 0.512 ms | 27.36x | 0 | true |
-| Custom rewrites | 192 | 13.741 ms | 0.516 ms | 26.64x | 0 | true |
-| ORT optimized | 124 | 13.998 ms | 0.515 ms | 27.16x | 0 | true |
+| Graph | Nodes | CPU p50 | CUDA p50 | CUDA speedup vs CPU |
+|---|---:|---:|---:|---:|
+| Original | 204 | 14.020 ms | 0.512 ms | 27.36x |
+| Custom rewrites | 192 | 13.741 ms | 0.516 ms | 26.64x |
+| ORT optimized | 124 | 13.998 ms | 0.515 ms | 27.16x |
 
 The CUDA rows record `CUDAExecutionProvider` as an effective session provider:
 

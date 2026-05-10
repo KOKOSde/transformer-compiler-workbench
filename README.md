@@ -195,12 +195,3 @@ and layer count to expose provider behavior without leaving standard ONNX ops.
 - ONNX Runtime: improve transformer optimizer report/debug visibility.
 - NVIDIA TensorRT / onnx-graphsurgeon docs: example graph surgery workflow for
   transformer blocks.
-
-## Design Notes
-
-- macOS/CPU first.
-- No CUDA, TensorRT, or NVIDIA GPU requirement.
-- Netron-compatible ONNX artifacts.
-- Standard ONNX operators in generated and rewritten graphs.
-- No custom fused operators in the MVP.
-- No external services.
